@@ -1,0 +1,37 @@
+<mvc:View
+    controllerName="riskmanagementfreestyle.controller.ListOfRisks"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+>
+    <Page
+        id="page"
+        title="{i18n>title}"
+    >
+        <content>
+            <Table
+				mode="MultiSelect"
+                id="idProductsTable"
+                inset="false"
+                items="{/ListOfRisks}"
+            >
+                <columns>
+                    <Column>
+                        <Text text="Title" />
+                    </Column>
+                    <Column>
+                        <Text text="Owner" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Text text="{title}" />
+                            <Text text="{owner}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+    </Page>
+</mvc:View>

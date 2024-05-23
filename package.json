@@ -18,7 +18,8 @@
   },
   "scripts": {
     "start": "cds-serve",
-    "watch-risk-management": "cds watch --open risk-management/webapp/index.html?sap-ui-xx-viewCache=false"
+    "watch-risk-management": "cds watch --open risk-management/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-risk-management-freestyle": "cds watch --open risk-management-freestyle/webapp/index.html?sap-ui-xx-viewCache=false"
   },
   "cds": {
     "requires": {
