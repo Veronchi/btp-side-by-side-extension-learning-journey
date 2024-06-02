@@ -1,0 +1,39 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core">
+	<Dialog
+		id="editRiskDialog"
+		title="{i18n>editRiskTitle}">
+		<f:SimpleForm
+			maxContainerCols="1"
+			layout="ResponsiveGridLayout"
+			labelSpanL="12"
+			labelSpanM="12"
+			emptySpanL="0"
+			emptySpanM="0"
+			columnsL="1"
+			columnsM="1"
+            id="editRiskForm">
+			<f:content>
+				<Label text="{i18n>title}"/>
+				<Input 
+                    placeholder="{i18n>inputTitlePlaceholder}" 
+                    value="{appModel>/newTitle}" 
+                    id="riskTitleInput" 
+                    required="true"/>
+				<Label text="{i18n>owner}"/>
+				<Input 
+                    placeholder="{i18n>inputOwnerPlaceholder}" 
+                    value="{appModel>/newOwner}" 
+                    id="riskOwnerInput" 
+                    required="true"/>
+			</f:content>
+		</f:SimpleForm>
+		<buttons>
+            <Button text="{i18n>save}" press="onSaveBtnPress" />
+			<Button text="{i18n>close}" press="onCloseEditDialogPress" />
+		</buttons>
+	</Dialog>
+
+</core:FragmentDefinition>

@@ -10,11 +10,26 @@
     >
         <content>
             <Table
-				mode="MultiSelect"
-                id="idProductsTable"
+                mode="SingleSelect"
+                id="idRisksTable"
                 inset="false"
                 items="{/ListOfRisks}"
+                selectionChange="onTableSelectionChange"
             >
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <content>
+                            <Title text="Risks"/>
+                            <ToolbarSpacer />
+                            <Button
+                                id="editBtn"
+                                text="{i18n>edit}"
+                                press="onEditBtnPress"
+                                enabled="{appModel>/isEditMode}"
+                            />
+                        </content>
+                    </OverflowToolbar>
+                </headerToolbar>
                 <columns>
                     <Column>
                         <Text text="Title" />
