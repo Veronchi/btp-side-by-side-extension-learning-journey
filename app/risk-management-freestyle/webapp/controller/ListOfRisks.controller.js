@@ -39,7 +39,7 @@ sap.ui.define([
                 this.oDialog.open();
             },
 
-            onSaveBtnPress: async function(oEvent) {
+            onSaveBtnPress: async function() {
                 const oModel = this.getView().getModel();
                 const oTable = this.byId('idRisksTable');
                 const oSelectedContext = oTable.getSelectedItem().getBindingContext();

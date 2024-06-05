@@ -2,20 +2,22 @@ using {riskmanagement as rm} from '../db/schema';
 
 @path: 'service/risk'
 service RiskService {
-    @cds.redirection.target:true
-    entity Risks   as projection on rm.Risks;
+    entity Risks       as projection on rm.Risks;
     annotate Risks with @odata.draft.enabled;
 
     entity Mitigations as projection on rm.Mitigations;
     annotate Mitigations with @odata.draft.enabled;
 
-    entity ListOfRisks as select from rm.Risks {
-        ID, title, owner
-    } actions {
-        action changeRisk(ID: UUID, newTitle: String, newOwner: String)
-    }
+    entity ListOfRisks  as
+        select from Risks {
+            key ID,
+                title,
+                owner,
+                impact
+        };
 
+    action setHighImpact (riskID: UUID, currentImpact: Integer) returns Boolean;
 
-// BusinessPartner will be used later
-//@readonly entity BusinessPartners as projection on rm.BusinessPartners;
+    // BusinessPartner will be used later
+    @readonly entity BusinessPartners as projection on rm.BusinessPartners;
 }
