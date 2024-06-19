@@ -8,6 +8,25 @@ module.exports = cds.service.impl(async function() {
     // Define constants for the Risk and BusinessPartner entities from the risk-service.cds file
     const { Risks, BusinessPartners, ListOfRisks } = this.entities;
 
+    const BPsrv = await cds.connect.to("API_BUSINESS_PARTNER");
+
+    /**
+     * Event-handler for read-events on the BusinessPartners entity.
+     * Each request to the API Business Hub requires the apikey in the header.
+     */
+    this.on("READ", BusinessPartners, async (req) => {
+        // The API Sandbox returns alot of business partners with empty names.
+        // We don't want them in our application
+        req.query.where("LastName <> '' and FirstName <> '' ");
+
+        return await BPsrv.transaction(req).send({
+            query: req.query,
+            headers: {
+                apikey: process.env.apikey,
+            },
+        });
+    });
+
     // This handler will be executed directly AFTER a READ operation on RISKS
     // With this we can loop through the received data set and manipulate the single risk entries
     this.after("READ", Risks, (data) => {
@@ -54,27 +73,6 @@ module.exports = cds.service.impl(async function() {
         }
     });
     
-    // connect to remote service
-    const BPsrv = await cds.connect.to("API_BUSINESS_PARTNER");
-
-    /**
-     * Event-handler for read-events on the BusinessPartners entity.
-     * Each request to the API Business Hub requires the apikey in the header.
-     */
-    this.on("READ", BusinessPartners, async (req) => {
-        // The API Sandbox returns alot of business partners with empty names.
-        // We don't want them in our application
-        req.query.where("LastName <> '' and FirstName <> '' ");
-
-        return await BPsrv.transaction(req).send({
-            query: req.query,
-            headers: {
-                apikey: process.env.apikey,
-            },
-        });
-    });
-
-    
     // Risks?$expand=bp (Expand on BusinessPartner)
     this.on("READ", Risks, async (req, next) => {
         /*
@@ -93,7 +91,7 @@ module.exports = cds.service.impl(async function() {
         // Remove expand from query
         req.query.SELECT.columns.splice(expandIndex, 1);
 
-        // Make sure bp_BusinessPartner (ID) will be returned
+        // Make sure bp_BusinessPartner (ID)
         if (!req.query.SELECT.columns.find((column) =>
             column.ref.find((ref) => ref == "bp_BusinessPartner")
         )
@@ -125,6 +123,11 @@ module.exports = cds.service.impl(async function() {
         }
 
         return risks;
+    });
+
+    this.before("READ", Risks, async () => {
+        const { Mitigations } = this.entities;
+        const mitigationsArray = await this.run (SELECT.from(Mitigations));
     });
 
   });
