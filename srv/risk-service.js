@@ -3,7 +3,7 @@
 const cds = require('@sap/cds')
 
 // The service implementation with all service handlers
-module.exports = cds.service.impl(async function() {
+module.exports = cds.service.impl(async function () {
 
     // Define constants for the Risk and BusinessPartner entities from the risk-service.cds file
     const { Risks, BusinessPartners, ListOfRisks } = this.entities;
@@ -35,7 +35,7 @@ module.exports = cds.service.impl(async function() {
 
         // Looping through the array of risks to set the virtual field 'criticality' that you defined in the schema
         risks.forEach((risk) => {
-            if( risk.impact >= 100000) {
+            if (risk.impact >= 100000) {
                 risk.criticality = 1;
             } else {
                 risk.criticality = 2;
@@ -63,8 +63,8 @@ module.exports = cds.service.impl(async function() {
         const ID = req.data.ID
         const newTitle = req.data.newTitle;
         const newOwner = req.data.newOwner;
-    
-        try {    
+
+        try {
             await UPDATE(ListOfRisks).set({ title: newTitle }).where({ ID });
             await UPDATE(ListOfRisks).set({ owner: newOwner }).where({ ID });
         } catch (error) {
@@ -72,7 +72,7 @@ module.exports = cds.service.impl(async function() {
             return req.error(500, 'An error occurred while editing the risk');
         }
     });
-    
+
     // Risks?$expand=bp (Expand on BusinessPartner)
     this.on("READ", Risks, async (req, next) => {
         /*
@@ -92,8 +92,8 @@ module.exports = cds.service.impl(async function() {
         req.query.SELECT.columns.splice(expandIndex, 1);
 
         // Make sure bp_BusinessPartner (ID)
-        if (!req.query.SELECT.columns.find((column) =>
-            column.ref.find((ref) => ref == "bp_BusinessPartner")
+        if (!req.query.SELECT.columns.find((column) => 
+            Array.isArray(column.ref) && column.ref.find((ref) => ref == "bp_BusinessPartner")
         )
         ) {
             req.query.SELECT.columns.push({ ref: ["bp_BusinessPartner"] });
@@ -127,7 +127,7 @@ module.exports = cds.service.impl(async function() {
 
     this.before("READ", Risks, async () => {
         const { Mitigations } = this.entities;
-        const mitigationsArray = await this.run (SELECT.from(Mitigations));
+        const mitigationsArray = await this.run(SELECT.from(Mitigations));
     });
 
-  });
+});
