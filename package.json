@@ -21,7 +21,9 @@
   "scripts": {
     "start": "cds-serve",
     "watch-risk-management": "cds watch --open risk-management/webapp/index.html?sap-ui-xx-viewCache=false",
-    "watch-mitigations": "cds watch --open mitigations/webapp/index.html?sap-ui-xx-viewCache=false"
+    "watch-mitigations": "cds watch --open mitigations/webapp/index.html?sap-ui-xx-viewCache=false",
+    "hybrid": "cds watch --profile hybrid",
+    "router": "cds bind --exec -- npm start --prefix app"
   },
   "cds": {
     "requires": {
@@ -34,6 +36,9 @@
       },
       "[production]": {
         "db": "hana",
+        "auth": "xsuaa"
+      },
+      "[hybrid]": {
         "auth": "xsuaa"
       }
     }

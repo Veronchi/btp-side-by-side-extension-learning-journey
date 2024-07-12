@@ -73,14 +73,14 @@ resources:
         xsappname: risk-management-${org}-${space}
         tenant-mode: dedicated
         role-collections:
-        - name: 'RiskManager-${org}-${space}'
-          description: Manage Risks
-          role-template-references:
-          - $XSAPPNAME.RiskManager
-        - name: 'RiskViewer-${org}-${space}'
-          description: View Risks
-          role-template-references:
-          - $XSAPPNAME.RiskViewer
+          - name: 'RiskManager-${org}-${space}'
+            description: Manage Risks
+            role-template-references:
+              - $XSAPPNAME.RiskManager
+          - name: 'RiskViewer-${org}-${space}'
+            description: View Risks
+            role-template-references:
+              - $XSAPPNAME.RiskViewer
         oauth2-configuration:
           redirect-uris:
             - https://**.hana.ondemand.com/login/callback # Wildcard redirect to SAP BTP (You might want to make this more exclusive)
