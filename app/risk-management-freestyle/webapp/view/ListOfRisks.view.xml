@@ -1,0 +1,52 @@
+<mvc:View
+    controllerName="riskmanagementfreestyle.controller.ListOfRisks"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+>
+    <Page
+        id="page"
+        title="{i18n>title}"
+    >
+        <content>
+            <Table
+                mode="SingleSelect"
+                id="idRisksTable"
+                inset="false"
+                items="{/ListOfRisks}"
+                selectionChange="onTableSelectionChange"
+            >
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <content>
+                            <Title text="Risks"/>
+                            <ToolbarSpacer />
+                            <Button
+                                id="editBtn"
+                                text="{i18n>edit}"
+                                press="onEditBtnPress"
+                                enabled="{appModel>/isEditMode}"
+                            />
+                        </content>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <columns>
+                    <Column>
+                        <Text text="Title" />
+                    </Column>
+                    <Column>
+                        <Text text="Owner" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Text text="{title}" />
+                            <Text text="{owner}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+    </Page>
+</mvc:View>
